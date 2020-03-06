@@ -4,26 +4,33 @@ import 'package:provider/provider.dart';
 import './screens/products_overview_screen.dart';
 import './screens/product_detail_screen.dart';
 import './providers/products_provider.dart';
+import './providers/cart_provider.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      builder: (ctx) => ProductsProvider(),
-      child: MaterialApp(
-        title: 'MyShop',
-        theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.deepOrange,
-          fontFamily: 'Lato',
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: ProductsProvider(),
         ),
-        home: ProductsOverviewScreen(),
-        routes: {
-          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-        }
-      ),
+        ChangeNotifierProvider.value(
+          value: CartProvider(),
+        ),
+      ],
+      child: MaterialApp(
+          title: 'MyShop',
+          theme: ThemeData(
+            primarySwatch: Colors.purple,
+            accentColor: Colors.deepOrange,
+            fontFamily: 'Lato',
+          ),
+          home: ProductsOverviewScreen(),
+          routes: {
+            ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+          }),
     );
   }
 }
